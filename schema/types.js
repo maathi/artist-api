@@ -24,6 +24,9 @@ const Art = new GraphQLObjectType({
     price: {
       type: GraphQLInt,
     },
+    description: {
+      type: GraphQLString,
+    },
     owner_id: {
       type: GraphQLInt,
     },

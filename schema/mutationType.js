@@ -27,6 +27,7 @@ module.exports = new GraphQLObjectType({
         file: { type: GraphQLNonNull(GraphQLUpload) },
         owner_id: { type: GraphQLInt },
         price: { type: GraphQLInt },
+        description: { type: GraphQLString },
       },
       resolve: async (parent, args, { storeUpload }) => {
         let pic = await storeUpload(args.file)
@@ -35,6 +36,7 @@ module.exports = new GraphQLObjectType({
           pic,
           owner_id: args.owner_id,
           price: args.price,
+          description: args.description,
         }
         addArt(args)
       },
