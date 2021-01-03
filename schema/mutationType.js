@@ -6,6 +6,7 @@ const {
   addUser,
   deleteUser,
   updateOwner,
+  updatePhoto,
 } = require("../resolvers/mutation")
 const {
   GraphQLList,
@@ -31,6 +32,8 @@ module.exports = new GraphQLObjectType({
       },
       resolve: async (parent, args, { storeUpload }) => {
         let pic = await storeUpload(args.file)
+        pic = pic.split(".")[0] //remove 'png'
+        console.log("the pic :", pic)
         args = {
           name: args.name,
           pic,
@@ -53,6 +56,21 @@ module.exports = new GraphQLObjectType({
         password: { type: GraphQLString },
       },
       resolve: (_, args) => addUser(args),
+    },
+    updatePhoto: {
+      type: User,
+      args: {
+        id: { type: GraphQLInt },
+        photo: { type: GraphQLUpload },
+      },
+      resolve: async (parent, args, { storeUpload }) => {
+        let photo = await storeUpload(args.photo)
+        args = {
+          id: args.id,
+          photo,
+        }
+        updatePhoto(args)
+      },
     },
     singleUpload: {
       type: GraphQLNonNull(File),

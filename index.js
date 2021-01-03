@@ -16,7 +16,10 @@ const storeUpload = async (upload) => {
   const { createReadStream, filename, mimetype } = await upload
   const stream = createReadStream()
   const id = shortid.generate()
-  const path = `uploads/${id}.png`
+  const ext = mimetype.split("/")[1]
+  const name = `${id}.${ext}`
+  console.log(name)
+  const path = `uploads/${name}`
   const file = { id, filename, mimetype, path }
 
   // Store the file in the filesystem.
@@ -44,7 +47,7 @@ const storeUpload = async (upload) => {
     stream.pipe(writeStream)
   })
 
-  return id
+  return name
 }
 
 const app = new Koa().use(

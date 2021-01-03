@@ -49,6 +49,9 @@ const User = new GraphQLObjectType({
     password: {
       type: GraphQLString,
     },
+    photo: {
+      type: GraphQLString,
+    },
     arts: {
       type: GraphQLList(Art),
       resolve: (source) => userArts(source),

@@ -22,10 +22,16 @@ function deleteUser(id) {
   return pool.query(text, values)
 }
 
+function updatePhoto({ id, photo }) {
+  const text = "UPDATE users SET photo = $2  WHERE id = $1 RETURNING *"
+  const values = [id, photo]
+  return pool.query(text, values)
+}
+
 function login({ name, password }) {
   const text = "SELECT * FROM users WHERE name = $1 AND password = $2"
   const values = [name, password]
   return pool.query(text, values)
 }
 
-module.exports = { getUsers, getUser, addUser, deleteUser, login }
+module.exports = { getUsers, getUser, addUser, deleteUser, login, updatePhoto }
