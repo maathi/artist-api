@@ -10,10 +10,10 @@ function getArt(id) {
   return pool.query(text, values)
 }
 
-function addArt({ name, pic, owner_id, price, description }) {
+function addArt({ name, pic, owner_id, description }) {
   const text =
-    "INSERT INTO arts(name, pic, owner_id, price, description) VALUES($1, $2, $3, $4, $5) RETURNING *"
-  const values = [name, pic, owner_id, price, description]
+    "INSERT INTO arts(name, pic, owner_id, description) VALUES($1, $2, $3, $4) RETURNING *"
+  const values = [name, pic, owner_id, description]
   return pool.query(text, values)
 }
 
