@@ -8,7 +8,7 @@ const fs = require("fs")
 const path = require("path")
 
 const schema = require("./schema/main")
-
+const { authenticate } = require("./auth")
 // Expected here; serve static files from public dir
 const staticDirPath = path.join(__dirname, "uploads")
 
@@ -33,6 +33,7 @@ const storeUpload = async (upload) => {
     // If there's an error writing the file, remove the partially written file
     // and reject the promise.
     writeStream.on("error", (error) => {
+      console.log(error)
       unlink(path, () => {
         reject(error)
       })
@@ -61,7 +62,14 @@ app.use(serve(staticDirPath))
 new ApolloServer({
   uploads: false,
   schema,
-  context: { storeUpload },
+  context: ({ ctx }) => {
+    const token = ctx.req.headers.authorization || ""
+
+    const user = token ? authenticate(token) : null
+
+    console.log(user)
+    return { user, storeUpload }
+  },
 }).applyMiddleware({ app })
 
 app.listen(4000, (error) => {

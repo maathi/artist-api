@@ -1,5 +1,6 @@
 let { getArts, getArt, userArts } = require("../database/arts")
 let { getUsers, getUser, login } = require("../database/users")
+let jwt = require("jsonwebtoken")
 
 module.exports.arts = () => {
   return getArts()
@@ -31,12 +32,10 @@ module.exports.user = (id) => {
 }
 
 module.exports.login = (args) => {
-  return (
-    login(args)
-      .then((res) => res.rows[0])
-      // .then((user) => (user ? { ...user, token: jwt.sign(user, "key") } : null))
-      .catch((e) => console.error(e.stack))
-  )
+  return login(args)
+    .then((res) => res.rows[0])
+    .then((user) => (user ? jwt.sign(user, "key") : null))
+    .catch((e) => console.error(e.stack))
 }
 
 module.exports.userArts = (parent) => {

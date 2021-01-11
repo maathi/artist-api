@@ -26,18 +26,19 @@ module.exports = new GraphQLObjectType({
       args: {
         name: { type: GraphQLString },
         file: { type: GraphQLNonNull(GraphQLUpload) },
-        owner_id: { type: GraphQLInt },
         price: { type: GraphQLInt },
         description: { type: GraphQLString },
       },
-      resolve: async (parent, args, { storeUpload }) => {
+      resolve: async (parent, args, { user, storeUpload }) => {
+        if (!user) return null
+
         let pic = await storeUpload(args.file)
         pic = pic.split(".")[0] //remove 'png'
         console.log("the pic :", pic)
         args = {
           name: args.name,
           pic,
-          owner_id: args.owner_id,
+          owner_id: user.id,
           price: args.price,
           description: args.description,
         }
@@ -60,27 +61,18 @@ module.exports = new GraphQLObjectType({
     updatePhoto: {
       type: User,
       args: {
-        id: { type: GraphQLInt },
         photo: { type: GraphQLUpload },
       },
-      resolve: async (parent, args, { storeUpload }) => {
+      resolve: async (parent, args, { user, storeUpload }) => {
+        if (!user) return null
+
         let photo = await storeUpload(args.photo)
         args = {
-          id: args.id,
+          id: user.id,
           photo,
         }
         updatePhoto(args)
       },
-    },
-    singleUpload: {
-      type: GraphQLNonNull(File),
-      args: {
-        file: {
-          description: "File to store.",
-          type: GraphQLNonNull(GraphQLUpload),
-        },
-      },
-      resolve: (parent, { file }, { storeUpload }) => storeUpload(file),
     },
   }),
 })

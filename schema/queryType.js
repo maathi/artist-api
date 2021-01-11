@@ -33,7 +33,7 @@ module.exports = new GraphQLObjectType({
       resolve: (source, args) => user(args.id),
     },
     login: {
-      type: User,
+      type: GraphQLString,
       args: {
         name: { type: GraphQLString },
         password: { type: GraphQLString },
