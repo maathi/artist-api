@@ -1,5 +1,5 @@
 "use strict"
-
+let fs = require("fs")
 const {
   addArt,
   deleteArt,
@@ -46,7 +46,18 @@ module.exports = new GraphQLObjectType({
     deleteArt: {
       type: Art,
       args: { id: { type: GraphQLInt } },
-      resolve: (_, args) => () => deleteArt(args),
+      resolve: async (_, args, { user }) => {
+        if (!user) return
+
+        let art = await deleteArt(args, user)
+        if (!art) return
+        let path = `uploads/${art.pic}.png`
+        fs.unlink(path, (err) => {
+          if (err) throw err
+          console.log(`${path} was deleted`)
+        })
+        return art
+      },
     },
     addUser: {
       type: User,

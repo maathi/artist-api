@@ -34,7 +34,7 @@ const storeUpload = async (upload) => {
     // and reject the promise.
     writeStream.on("error", (error) => {
       console.log(error)
-      unlink(path, () => {
+      fs.unlink(path, () => {
         reject(error)
       })
     })

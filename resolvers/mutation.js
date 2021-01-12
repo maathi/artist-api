@@ -7,8 +7,8 @@ module.exports.addArt = (args) => {
     .catch((e) => console.error(e.stack))
 }
 
-module.exports.deleteArt = (args) => {
-  return deleteArt(args.id)
+module.exports.deleteArt = (args, user) => {
+  return deleteArt(args.id, user.id)
     .then((res) => res.rows[0])
     .catch((e) => console.error(e.stack))
 }

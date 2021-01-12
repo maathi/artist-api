@@ -17,9 +17,9 @@ function addArt({ name, pic, owner_id, description }) {
   return pool.query(text, values)
 }
 
-function deleteArt(id) {
-  const text = "DELETE FROM arts WHERE id = $1 RETURNING *"
-  const values = [id]
+function deleteArt(id, owner_id) {
+  const text = "DELETE FROM arts WHERE id = $1 AND owner_id = $2 RETURNING *"
+  const values = [id, owner_id]
   return pool.query(text, values)
 }
 
