@@ -7,6 +7,7 @@ const {
   deleteUser,
   updateOwner,
   updatePhoto,
+  updateIntro,
 } = require("../resolvers/mutation")
 const {
   GraphQLList,
@@ -81,6 +82,16 @@ module.exports = new GraphQLObjectType({
           photo,
         }
         updatePhoto(args)
+      },
+    },
+    updateIntro: {
+      type: User,
+      args: {
+        intro: { type: GraphQLString },
+      },
+      resolve: (parent, args, { user }) => {
+        if (!user) return null
+        updateIntro(args, user)
       },
     },
   }),

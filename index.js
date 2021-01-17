@@ -18,7 +18,7 @@ const storeUpload = async (upload) => {
   const id = shortid.generate()
   const ext = mimetype.split("/")[1]
   const name = `${id}.${ext}`
-  console.log(name)
+  console.log("path of image", name)
   const path = `uploads/${name}`
   const file = { id, filename, mimetype, path }
 
@@ -33,7 +33,7 @@ const storeUpload = async (upload) => {
     // If there's an error writing the file, remove the partially written file
     // and reject the promise.
     writeStream.on("error", (error) => {
-      console.log(error)
+      console.log("error:", error)
       fs.unlink(path, () => {
         reject(error)
       })
@@ -67,7 +67,7 @@ new ApolloServer({
 
     const user = token ? authenticate(token) : null
 
-    console.log(user)
+    console.log("user is:", user)
     return { user, storeUpload }
   },
 }).applyMiddleware({ app })

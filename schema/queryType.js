@@ -1,5 +1,15 @@
 "use strict"
-const { arts, art, users, user, login } = require("../resolvers/query")
+const {
+  arts,
+  art,
+  users,
+  user,
+  login,
+  checkLiker,
+  like,
+  checkName,
+  userByName,
+} = require("../resolvers/query")
 
 const {
   GraphQLList,
@@ -30,7 +40,12 @@ module.exports = new GraphQLObjectType({
     user: {
       type: User,
       args: { id: { type: GraphQLInt } },
-      resolve: (source, args) => user(args.id),
+      resolve: (source, args) => user(args),
+    },
+    userByName: {
+      type: User,
+      args: { name: { type: GraphQLString } },
+      resolve: (source, args) => userByName(args),
     },
     login: {
       type: GraphQLString,
@@ -39,6 +54,28 @@ module.exports = new GraphQLObjectType({
         password: { type: GraphQLString },
       },
       resolve: (source, args) => login(args),
+    },
+    checkLiker: {
+      type: Art,
+      args: {
+        artId: { type: GraphQLInt },
+        userId: { type: GraphQLInt },
+      },
+      resolve: (source, args) => checkLiker(args.artId, args.userId),
+    },
+    like: {
+      type: GraphQLInt,
+      args: {
+        artId: { type: GraphQLInt },
+      },
+      resolve: (source, args) => like(args.artId),
+    },
+    checkName: {
+      type: User,
+      args: {
+        name: { type: GraphQLString },
+      },
+      resolve: (source, args) => checkName(args),
     },
   }),
 })

@@ -1,5 +1,10 @@
 let { addArt, deleteArt, updateOwner } = require("../database/arts")
-let { addUser, deleteUser, updatePhoto } = require("../database/users")
+let {
+  addUser,
+  deleteUser,
+  updatePhoto,
+  updateIntro,
+} = require("../database/users")
 
 module.exports.addArt = (args) => {
   return addArt(args)
@@ -33,6 +38,12 @@ module.exports.deleteUser = (args) => {
 
 module.exports.updatePhoto = (args) => {
   return updatePhoto(args)
+    .then((res) => res.rows[0])
+    .catch((e) => console.error(e.stack))
+}
+
+module.exports.updateIntro = (args, user) => {
+  return updateIntro(user.id, args.intro)
     .then((res) => res.rows[0])
     .catch((e) => console.error(e.stack))
 }

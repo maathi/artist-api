@@ -31,6 +31,9 @@ const Art = new GraphQLObjectType({
       type: User,
       resolve: (source) => user(source.owner_id),
     },
+    likers: {
+      type: GraphQLList(GraphQLInt),
+    },
   }),
 })
 
@@ -47,6 +50,9 @@ const User = new GraphQLObjectType({
       type: GraphQLString,
     },
     photo: {
+      type: GraphQLString,
+    },
+    intro: {
       type: GraphQLString,
     },
     arts: {

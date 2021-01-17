@@ -32,7 +32,26 @@ function userArts(id) {
 function updateOwner({ artId, ownerId }) {
   const text = "update arts SET owner_id = $1 where id = $2 RETURNING *"
   const values = [ownerId, artId]
-  pool.query(text, values).then((res) => console.log(res.rows[0]))
+  return pool.query(text, values)
+}
+
+function checkLiker(artId, likerId) {
+  console.log(artId, likerId)
+  const text = "select * from arts where id = 20 and 23 = any(likers)"
+  const values = [artId, likerId]
+  return pool.query(text) //.then((r) => console.log(r))
+}
+
+function getLikers(artId) {
+  console.log(artId)
+  const text = "SELECT likers FROM arts WHERE id = $1"
+  const values = [artId]
+  return pool.query(text, values)
+}
+
+function updateLikes(artId, likes) {
+  const text = "UPDATE arts SET likes = $2 where id = $1"
+  const values = [artId, likes]
   return pool.query(text, values)
 }
 
@@ -43,4 +62,6 @@ module.exports = {
   getArt,
   userArts,
   updateOwner,
+  checkLiker,
+  getLikers,
 }

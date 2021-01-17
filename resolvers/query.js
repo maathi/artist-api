@@ -1,5 +1,12 @@
-let { getArts, getArt, userArts } = require("../database/arts")
-let { getUsers, getUser, login } = require("../database/users")
+let { getArts, getArt, userArts, checkLiker } = require("../database/arts")
+let {
+  getUsers,
+  getUser,
+  getUserByName,
+  login,
+  checkName,
+} = require("../database/users")
+
 let jwt = require("jsonwebtoken")
 
 module.exports.arts = () => {
@@ -26,7 +33,15 @@ module.exports.users = () => {
 }
 
 module.exports.user = (id) => {
+  console.log("argsid", id)
   return getUser(id)
+    .then((res) => res.rows[0])
+    .catch((e) => console.error(e.stack))
+}
+
+module.exports.userByName = (args) => {
+  console.log("name", args)
+  return getUserByName(args.name)
     .then((res) => res.rows[0])
     .catch((e) => console.error(e.stack))
 }
@@ -47,5 +62,26 @@ module.exports.userArts = (parent) => {
 module.exports.artOwner = (parent) => {
   return artOwner(parent.id)
     .then((res) => res.rows)
+    .catch((e) => console.error(e.stack))
+}
+
+module.exports.checkLiker = (artId, userId) => {
+  console.log(artId, userId)
+  return checkLiker(artId, userId)
+    .then((res) => res.rows)
+    .catch((e) => console.error(e.stack))
+}
+
+module.exports.like = async (artId) => {
+  let art = await getArt(artId)
+  console.log(art)
+  let likers = art.fields.filter((f) => f.name == "likers")[0]
+  console.log(likers)
+  return 3
+}
+
+module.exports.checkName = (args) => {
+  return checkName(args.name)
+    .then((res) => res.rows[0])
     .catch((e) => console.error(e.stack))
 }
