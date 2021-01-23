@@ -1,7 +1,7 @@
 const { pool } = require("./db")
 
 function getArts() {
-  return pool.query("select * from arts")
+  return pool.query("SELECT * FROM arts ORDER BY id DESC")
 }
 
 function getArt(id) {
@@ -26,12 +26,6 @@ function deleteArt(id, owner_id) {
 function userArts(id) {
   const text = "SELECT * FROM arts WHERE owner_id = $1"
   const values = [id]
-  return pool.query(text, values)
-}
-
-function updateOwner({ artId, ownerId }) {
-  const text = "update arts SET owner_id = $1 where id = $2 RETURNING *"
-  const values = [ownerId, artId]
   return pool.query(text, values)
 }
 
@@ -61,7 +55,6 @@ module.exports = {
   deleteArt,
   getArt,
   userArts,
-  updateOwner,
   checkLiker,
   getLikers,
 }

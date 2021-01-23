@@ -30,6 +30,7 @@ module.exports = new GraphQLObjectType({
         description: { type: GraphQLString },
       },
       resolve: async (parent, args, { user, storeUpload }) => {
+        // return null
         if (!user) return null
 
         let pic = await storeUpload(args.file)
@@ -41,7 +42,7 @@ module.exports = new GraphQLObjectType({
           owner_id: user.id,
           description: args.description,
         }
-        addArt(args)
+        return addArt(args)
       },
     },
     deleteArt: {
@@ -61,7 +62,7 @@ module.exports = new GraphQLObjectType({
       },
     },
     addUser: {
-      type: User,
+      type: GraphQLString,
       args: {
         name: { type: GraphQLString },
         password: { type: GraphQLString },
@@ -69,7 +70,7 @@ module.exports = new GraphQLObjectType({
       resolve: (_, args) => addUser(args),
     },
     updatePhoto: {
-      type: User,
+      type: GraphQLString,
       args: {
         photo: { type: GraphQLUpload },
       },
@@ -81,7 +82,7 @@ module.exports = new GraphQLObjectType({
           id: user.id,
           photo,
         }
-        updatePhoto(args)
+        return updatePhoto(args)
       },
     },
     updateIntro: {

@@ -3,12 +3,18 @@ const { graphqlUploadKoa } = require("graphql-upload")
 const Koa = require("koa")
 const shortid = require("shortid")
 const serve = require("koa-static")
-
+const mkdirp = require("mkdirp")
 const fs = require("fs")
 const path = require("path")
 
 const schema = require("./schema/main")
 const { authenticate } = require("./auth")
+
+const PORT = process.env.PORT || 4000
+const UPLOAD_DIR = "./uploads"
+
+mkdirp.sync(UPLOAD_DIR)
+
 // Expected here; serve static files from public dir
 const staticDirPath = path.join(__dirname, "uploads")
 
@@ -18,8 +24,8 @@ const storeUpload = async (upload) => {
   const id = shortid.generate()
   const ext = mimetype.split("/")[1]
   const name = `${id}.${ext}`
-  console.log("path of image", name)
-  const path = `uploads/${name}`
+
+  const path = `${UPLOAD_DIR}/${name}`
   const file = { id, filename, mimetype, path }
 
   // Store the file in the filesystem.
@@ -67,13 +73,12 @@ new ApolloServer({
 
     const user = token ? authenticate(token) : null
 
-    console.log("user is:", user)
     return { user, storeUpload }
   },
 }).applyMiddleware({ app })
 
-app.listen(4000, (error) => {
+app.listen(PORT, (error) => {
   if (error) throw error
 
-  console.info(`Serving http://localhost:4000.`)
+  console.info(`Serving http://localhost:${PORT}`)
 })

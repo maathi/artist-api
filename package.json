@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start":"node index.js",	  
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
@@ -14,8 +15,10 @@
     "jsonwebtoken": "^8.5.1",
     "koa": "^2.13.0",
     "koa-static": "^5.0.0",
+    "mkdirp": "^1.0.4",
     "pg": "^8.5.1",
-    "shortid": "^2.2.16"
+    "shortid": "^2.2.16",
+    "yup": "^0.32.8"
   },
   "devDependencies": {
     "nodemon": "^2.0.6"
