@@ -25,8 +25,9 @@ function getUserByName(name) {
 }
 
 function addUser({ name, password }) {
-  const text = "INSERT INTO users(name, password) VALUES($1, $2) RETURNING *"
-  const values = [name, password]
+  const text =
+    "INSERT INTO users(name, password, photo) VALUES($1, $2, $3) RETURNING *"
+  const values = [name, password, "3xWegIKJD.jpeg"]
   return pool.query(text, values)
 }
 

@@ -1,12 +1,20 @@
-let { addArt, deleteArt, updateOwner } = require("../database/arts")
+let { addArt, deleteArt } = require("../database/arts")
 let {
   addUser,
   deleteUser,
   updatePhoto,
   updateIntro,
 } = require("../database/users")
+let jwt = require("jsonwebtoken")
+let yup = require("yup")
+module.exports.addArt = async (args) => {
+  let schema = yup.object().shape({
+    name: yup.string().required().min(4).max(20),
+    description: yup.string().max(244),
+  })
+  let valid = await schema.isValid(({ name, description } = args))
+  if (!valid) return
 
-module.exports.addArt = (args) => {
   return addArt(args)
     .then((res) => res.rows[0])
     .catch((e) => console.error(e.stack))
@@ -18,15 +26,23 @@ module.exports.deleteArt = (args, user) => {
     .catch((e) => console.error(e.stack))
 }
 
-module.exports.updateOwner = (args) => {
-  return updateOwner(args)
-    .then((res) => res.rows[0])
-    .catch((e) => console.error(e.stack))
-}
+module.exports.addUser = async (args) => {
+  let schema = yup.object().shape({
+    name: yup
+      .string()
+      .required()
+      .min(5)
+      .max(15)
+      .matches(/^[a-z][a-z0-9_]+$/i),
+    password: yup.string().required().min(4).max(30),
+  })
 
-module.exports.addUser = (args) => {
+  let valid = await schema.isValid(args)
+  if (!valid) return
+
   return addUser(args)
     .then((res) => res.rows[0])
+    .then((user) => (user ? jwt.sign(user, "key") : null))
     .catch((e) => console.error(e.stack))
 }
 
@@ -37,8 +53,10 @@ module.exports.deleteUser = (args) => {
 }
 
 module.exports.updatePhoto = (args) => {
+  console.log("object")
   return updatePhoto(args)
     .then((res) => res.rows[0])
+    .then((user) => (user ? jwt.sign(user, "key") : null))
     .catch((e) => console.error(e.stack))
 }
 

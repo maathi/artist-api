@@ -33,14 +33,12 @@ module.exports.users = () => {
 }
 
 module.exports.user = (id) => {
-  console.log("argsid", id)
   return getUser(id)
     .then((res) => res.rows[0])
     .catch((e) => console.error(e.stack))
 }
 
 module.exports.userByName = (args) => {
-  console.log("name", args)
   return getUserByName(args.name)
     .then((res) => res.rows[0])
     .catch((e) => console.error(e.stack))
