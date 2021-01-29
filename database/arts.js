@@ -10,10 +10,10 @@ function getArt(id) {
   return pool.query(text, values)
 }
 
-function addArt({ name, pic, owner_id, description }) {
+function addArt({ name, pic, owner_id, description, rid }) {
   const text =
-    "INSERT INTO arts(name, pic, owner_id, description) VALUES($1, $2, $3, $4) RETURNING *"
-  const values = [name, pic, owner_id, description]
+    "INSERT INTO arts(name, pic, owner_id, description, rid) VALUES($1, $2, $3, $4, $5) RETURNING *"
+  const values = [name, pic, owner_id, description, rid]
   return pool.query(text, values)
 }
 
@@ -29,15 +29,7 @@ function userArts(id) {
   return pool.query(text, values)
 }
 
-function checkLiker(artId, likerId) {
-  console.log(artId, likerId)
-  const text = "select * from arts where id = 20 and 23 = any(likers)"
-  const values = [artId, likerId]
-  return pool.query(text) //.then((r) => console.log(r))
-}
-
 function getLikers(artId) {
-  console.log(artId)
   const text = "SELECT likers FROM arts WHERE id = $1"
   const values = [artId]
   return pool.query(text, values)
@@ -55,6 +47,5 @@ module.exports = {
   deleteArt,
   getArt,
   userArts,
-  checkLiker,
   getLikers,
 }

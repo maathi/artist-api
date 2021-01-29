@@ -5,14 +5,12 @@ function getUsers() {
 }
 
 function getUser(id) {
-  console.log(id)
   const text = "SELECT * FROM users WHERE id = $1"
   const values = [id]
   return pool.query(text, values)
 }
 
 function getUserByName(name) {
-  console.log(name)
   const text = "SELECT * FROM users WHERE name = $1"
   const values = [name]
   return pool.query(text, values)
@@ -44,7 +42,6 @@ function updatePhoto({ id, photo }) {
 }
 
 function updateIntro(id, intro) {
-  console.log("in db", id, intro)
   const text = "UPDATE users SET intro = $2  WHERE id = $1 RETURNING *"
   const values = [id, intro]
   return pool.query(text, values)
@@ -57,7 +54,6 @@ function login({ name, password }) {
 }
 
 function checkName(name) {
-  console.log("tename", name)
   const text = "SELECT * FROM users WHERE name = $1"
   const values = [name]
   return pool.query(text, values)

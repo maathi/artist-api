@@ -4,9 +4,9 @@ let connectionString = process.env.DATABASE_URL || "postgres://art:@:/artdb"
 
 const pool = new Pool({
   connectionString,
-  ssl: {
-    rejectUnauthorized: false,
-  },
+  // ssl: {
+  //   rejectUnauthorized: false,
+  // },
 })
 
 // const client = new Client({
