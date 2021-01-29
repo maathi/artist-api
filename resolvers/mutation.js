@@ -46,7 +46,7 @@ module.exports.addUser = async (args) => {
 
   return addUser(args)
     .then((res) => res.rows[0])
-    .then((user) => (user ? jwt.sign(user, "key") : null))
+    .then((user) => (user ? jwt.sign(user, process.env.SECRET) : null))
     .catch((e) => console.error(e.stack))
 }
 
@@ -59,7 +59,7 @@ module.exports.deleteUser = (args) => {
 module.exports.updatePhoto = (args) => {
   return updatePhoto(args)
     .then((res) => res.rows[0])
-    .then((user) => (user ? jwt.sign(user, "key") : null))
+    .then((user) => (user ? jwt.sign(user, process.env.SECRET) : null))
     .catch((e) => console.error(e.stack))
 }
 

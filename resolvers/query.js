@@ -42,7 +42,7 @@ module.exports.userByName = (args) => {
 module.exports.login = (args) => {
   return login(args)
     .then((res) => res.rows[0])
-    .then((user) => (user ? jwt.sign(user, "key") : null))
+    .then((user) => (user ? jwt.sign(user, process.env.SECRET) : null))
     .catch((e) => console.error(e.stack))
 }
 

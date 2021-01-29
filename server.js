@@ -3,6 +3,7 @@ const { authenticate } = require("./auth")
 const typeDefs = require("./schema")
 const resolvers = require("./resolvers/main")
 
+const PORT = process.env.PORT || "4000"
 const server = new ApolloServer({
   typeDefs,
   resolvers,
@@ -14,6 +15,7 @@ const server = new ApolloServer({
     return { user }
   },
 })
-server.listen().then(({ url }) => {
+
+server.listen(PORT).then(({ url }) => {
   console.log(`Server ready at ${url}`)
 })
