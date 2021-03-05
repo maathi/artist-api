@@ -1,10 +1,5 @@
-let { addArt, deleteArt } = require("../database/arts")
-let {
-  addUser,
-  deleteUser,
-  updatePhoto,
-  updateIntro,
-} = require("../database/users")
+let { addArt, deleteArt } = require("../sql/arts")
+let { addUser, deleteUser, updatePhoto, updateIntro } = require("../sql/users")
 let jwt = require("jsonwebtoken")
 let yup = require("yup")
 const shortid = require("shortid")

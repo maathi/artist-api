@@ -1,4 +1,4 @@
-const { pool } = require("./db")
+const { pool } = require("../config/db")
 
 function getUsers() {
   return pool.query("select * from users")

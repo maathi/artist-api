@@ -1,11 +1,11 @@
-let { getArts, getArt, userArts, checkLiker } = require("../database/arts")
+let { getArts, getArt, userArts, checkLiker } = require("../sql/arts")
 let {
   getUsers,
   getUser,
   getUserByName,
   login,
   checkName,
-} = require("../database/users")
+} = require("../sql/users")
 
 let jwt = require("jsonwebtoken")
 

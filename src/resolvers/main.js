@@ -27,15 +27,6 @@ const resolvers = {
     checkName: (parent, args) => checkName(args),
   },
   Mutation: {
-    addUser: (parent, args, { user }) => {
-      if (!user) return null
-
-      args = {
-        ...args,
-        owner_id: user.id,
-      }
-      return addArt(args)
-    },
     addArt: (parent, args, { user }) => {
       if (!user) return null
 

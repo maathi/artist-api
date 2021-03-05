@@ -1,7 +1,8 @@
 const { ApolloServer } = require("apollo-server")
 const { authenticate } = require("./auth")
-const typeDefs = require("./schema")
+const typeDefs = require("./schema/schema")
 const resolvers = require("./resolvers/main")
+require("dotenv").config()
 
 const PORT = process.env.PORT || "4000"
 const server = new ApolloServer({

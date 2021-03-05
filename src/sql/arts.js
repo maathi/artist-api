@@ -1,4 +1,4 @@
-const { pool } = require("./db")
+const { pool } = require("../config/db")
 
 function getArts() {
   return pool.query("SELECT * FROM arts ORDER BY id DESC")
